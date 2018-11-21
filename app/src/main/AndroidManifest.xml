@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hu.sandorszilard.speningmonitor" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="hu.sandorszilard.spendingmonitor">
 
     <application
         android:allowBackup="true"
@@ -8,11 +9,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="hu.sandorszilard.spendingmonitor.App"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:icon">
+        <meta-data
+            android:name="DATABASE"
+            android:value="sm.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="hu.sandorszilard" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
