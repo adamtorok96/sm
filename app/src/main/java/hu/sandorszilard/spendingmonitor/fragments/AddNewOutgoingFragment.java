@@ -14,23 +14,23 @@ import android.widget.Toast;
 import hu.sandorszilard.spendingmonitor.R;
 import hu.sandorszilard.spendingmonitor.adapters.CategoriesAdapter;
 import hu.sandorszilard.spendingmonitor.db.models.Outgoing;
-import hu.sandorszilard.spendingmonitor.interfaces.OnItemAddedListener;
+import hu.sandorszilard.spendingmonitor.interfaces.OnBalanceChangedListener;
 
 public class AddNewOutgoingFragment extends DialogFragment {
 
-    private OnItemAddedListener mOnItemAddedListener;
+    private OnBalanceChangedListener mOnBalanceChangedListener;
     private Spinner spCategories;
     private EditText etName, etValue;
 
-    public static AddNewOutgoingFragment newInstance(OnItemAddedListener onItemAddedListener) {
+    public static AddNewOutgoingFragment newInstance(OnBalanceChangedListener onItemAddedListener) {
         AddNewOutgoingFragment fragment = new AddNewOutgoingFragment();
-        fragment.setOnItemAddedListener(onItemAddedListener);
+        fragment.setOnBalanceChangedListener(onItemAddedListener);
 
         return fragment;
     }
 
-    private void setOnItemAddedListener(OnItemAddedListener onItemAddedListener) {
-        mOnItemAddedListener = onItemAddedListener;
+    private void setOnBalanceChangedListener(OnBalanceChangedListener onItemAddedListener) {
+        mOnBalanceChangedListener = onItemAddedListener;
     }
 
     @Override
@@ -79,8 +79,8 @@ public class AddNewOutgoingFragment extends DialogFragment {
         Outgoing outgoing = new Outgoing(category, name, value);
         outgoing.save();
 
-        if( mOnItemAddedListener != null )
-            mOnItemAddedListener.onAdded();
+        if( mOnBalanceChangedListener != null )
+            mOnBalanceChangedListener.onAdded();
 
         dismiss();
     }

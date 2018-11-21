@@ -10,4 +10,8 @@
     <string name="save">Mentés</string>
     <string name="error_empty_name">Nincs megadva név!</string>
     <string name="error_empty_value">Nincs megadva érték!</string>
+    <string name="statistics">Statisztika</string>
+    <string name="income">Bevétel</string>
+    <string name="outgoing">Kiadás</string>
+    <string name="balance">Egyenleg</string>
 </resources>

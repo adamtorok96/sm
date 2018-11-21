@@ -19,11 +19,14 @@ import hu.sandorszilard.spendingmonitor.fragments.AddNewIncomeFragment;
 import hu.sandorszilard.spendingmonitor.fragments.OutgoingsFragment;
 import hu.sandorszilard.spendingmonitor.fragments.AddNewOutgoingFragment;
 import hu.sandorszilard.spendingmonitor.fragments.IncomesFragment;
-import hu.sandorszilard.spendingmonitor.interfaces.OnItemAddedListener;
+import hu.sandorszilard.spendingmonitor.fragments.StatisticsFragment;
+import hu.sandorszilard.spendingmonitor.interfaces.OnBalanceChangedListener;
 
-public class MainActivity extends AppCompatActivity implements OnItemAddedListener {
+public class MainActivity extends AppCompatActivity implements OnBalanceChangedListener, ViewPager.OnPageChangeListener {
 
     private static final String DIALOG_FRAGMENT_TAG = "dialog";
+
+    FloatingActionButton mFab;
 
     ViewPager mViewPager;
 
@@ -33,11 +36,10 @@ public class MainActivity extends AppCompatActivity implements OnItemAddedListen
 
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showCreateDialog();
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnItemAddedListen
 
         mViewPager = findViewById(R.id.viewPager);
         mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOnPageChangeListener(this);
     }
 
     private void showCreateDialog() {
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnItemAddedListen
 
         DialogFragment newFragment;
 
-        if( getCurrentPageId() == 0 )
+        if( getCurrentPageId() == 1 )
             newFragment = AddNewOutgoingFragment.newInstance(this);
         else
             newFragment = AddNewIncomeFragment.newInstance(this);
@@ -94,9 +97,35 @@ public class MainActivity extends AppCompatActivity implements OnItemAddedListen
 
     @Override
     public void onAdded() {
-        if( getCurrentPageId() == 0 )
+        reloadViewsData();
+    }
+
+    @Override
+    public void onRemoved() {
+        reloadViewsData();
+    }
+
+    private void reloadViewsData() {
+        if( getCurrentPageId() == 1 )
             OutgoingsFragment.getInstance().reload();
-        else
+        else if( getCurrentPageId() == 2 )
             IncomesFragment.getInstance().reload();
+
+        StatisticsFragment.getInstance().loadData();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        mFab.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

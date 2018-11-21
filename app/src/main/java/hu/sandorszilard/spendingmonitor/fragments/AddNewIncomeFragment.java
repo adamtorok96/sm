@@ -12,22 +12,22 @@ import android.widget.Toast;
 
 import hu.sandorszilard.spendingmonitor.R;
 import hu.sandorszilard.spendingmonitor.db.models.Income;
-import hu.sandorszilard.spendingmonitor.interfaces.OnItemAddedListener;
+import hu.sandorszilard.spendingmonitor.interfaces.OnBalanceChangedListener;
 
 public class AddNewIncomeFragment extends DialogFragment {
 
-    private OnItemAddedListener mOnItemAddedListener;
+    private OnBalanceChangedListener mOnBalanceChangedListener;
     private EditText etName, etValue;
 
-    public static AddNewIncomeFragment newInstance(OnItemAddedListener onItemAddedListener) {
+    public static AddNewIncomeFragment newInstance(OnBalanceChangedListener onItemAddedListener) {
         AddNewIncomeFragment fragment = new AddNewIncomeFragment();
-        fragment.setOnItemAddedListener(onItemAddedListener);
+        fragment.setOnBalanceChangedListener(onItemAddedListener);
 
         return fragment;
     }
 
-    private void setOnItemAddedListener(OnItemAddedListener onItemAddedListener) {
-        mOnItemAddedListener = onItemAddedListener;
+    private void setOnBalanceChangedListener(OnBalanceChangedListener onItemAddedListener) {
+        mOnBalanceChangedListener = onItemAddedListener;
     }
 
     @Override
@@ -72,8 +72,8 @@ public class AddNewIncomeFragment extends DialogFragment {
         Income income = new Income(name, value);
         income.save();
 
-        if( mOnItemAddedListener != null )
-            mOnItemAddedListener.onAdded();
+        if( mOnBalanceChangedListener != null )
+            mOnBalanceChangedListener.onAdded();
 
         dismiss();
     }

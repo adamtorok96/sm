@@ -38,11 +38,22 @@ public class OutgoingsAdapter extends RecyclerView.Adapter<OutgoingsAdapter.Outg
 
     @Override
     public void onBindViewHolder(@NonNull OutgoingViewHolder viewHolder, int pos) {
-        Outgoing outgoing = mOutgoings.get(pos);
+        final Outgoing outgoing = mOutgoings.get(pos);
 
         viewHolder.tvCategory.setText(mCategories[outgoing.getCategory()]);
         viewHolder.tvName.setText(outgoing.getName());
         viewHolder.tvValue.setText(String.format(Locale.getDefault(), "%d Ft", outgoing.getValue()));
+
+        viewHolder.getView().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                outgoing.delete();
+
+                reload();
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -57,14 +68,22 @@ public class OutgoingsAdapter extends RecyclerView.Adapter<OutgoingsAdapter.Outg
     }
 
     class OutgoingViewHolder extends RecyclerView.ViewHolder {
+        private View mView;
+
         private TextView tvCategory, tvName, tvValue;
 
         OutgoingViewHolder(View view) {
             super(view);
 
+            mView = view;
+
             tvCategory = view.findViewById(R.id.tvCategory);
             tvName = view.findViewById(R.id.tvName);
             tvValue = view.findViewById(R.id.tvValue);
+        }
+
+        public View getView() {
+            return mView;
         }
     }
 }

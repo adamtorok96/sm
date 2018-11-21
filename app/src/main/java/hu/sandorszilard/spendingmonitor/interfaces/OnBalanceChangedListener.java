@@ -1,5 +1,6 @@
 package hu.sandorszilard.spendingmonitor.interfaces;
 
-public interface OnItemAddedListener {
+public interface OnBalanceChangedListener {
     void onAdded();
+    void onRemoved();
 }

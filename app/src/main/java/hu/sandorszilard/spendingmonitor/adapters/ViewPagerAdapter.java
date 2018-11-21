@@ -1,12 +1,12 @@
 package hu.sandorszilard.spendingmonitor.adapters;
 
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import hu.sandorszilard.spendingmonitor.fragments.OutgoingsFragment;
 import hu.sandorszilard.spendingmonitor.fragments.IncomesFragment;
+import hu.sandorszilard.spendingmonitor.fragments.StatisticsFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -16,23 +16,24 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return position == 0
-                ? OutgoingsFragment.getInstance()
-                : IncomesFragment.getInstance()
-        ;
+        return getFragment(position);
     }
 
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return position == 0
-                ? "Kiadás"
-                : "Bevétel"
-        ;
+    private Fragment getFragment(int pos) {
+        switch (pos) {
+            case 1:
+                return OutgoingsFragment.getInstance();
+
+            case 2:
+                return IncomesFragment.getInstance();
+
+            default:
+                return StatisticsFragment.getInstance();
+        }
     }
 }

@@ -35,10 +35,21 @@ public class IncomesAdapter extends RecyclerView.Adapter<IncomesAdapter.IncomeVi
 
     @Override
     public void onBindViewHolder(@NonNull IncomeViewHolder viewHolder, int pos) {
-        Income income = mIncomes.get(pos);
+        final Income income = mIncomes.get(pos);
 
         viewHolder.tvName.setText(income.getName());
         viewHolder.tvValue.setText(String.format(Locale.getDefault(), "%d Ft", income.getValue()));
+
+        viewHolder.getView().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                income.delete();
+
+                reload();
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -53,13 +64,21 @@ public class IncomesAdapter extends RecyclerView.Adapter<IncomesAdapter.IncomeVi
     }
 
     class IncomeViewHolder extends RecyclerView.ViewHolder {
+        private View mView;
+
         private TextView tvName, tvValue;
 
         IncomeViewHolder(@NonNull View view) {
             super(view);
 
+            mView = view;
+
             tvName = view.findViewById(R.id.tvName);
             tvValue = view.findViewById(R.id.tvValue);
+        }
+
+        public View getView() {
+            return mView;
         }
     }
 }

@@ -1,7 +1,6 @@
 package hu.sandorszilard.spendingmonitor.db.models;
 
 
-import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
@@ -45,6 +44,25 @@ public class Outgoing extends SugarRecord<Outgoing> {
 
         SQLiteDatabase sqLiteDatabase = db.getDB();
         SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement("SELECT SUM(value) FROM outgoing WHERE category = " + category);
+
+        long sum = 0;
+
+        try {
+            sum = sqLiteStatement.simpleQueryForLong();
+        } catch (Exception var16) {
+            var16.printStackTrace();
+        } finally {
+            sqLiteStatement.close();
+        }
+
+        return sum;
+    }
+
+    public static long getSum() {
+        Database db = ((App)SugarApp.getSugarContext()).getDB();
+
+        SQLiteDatabase sqLiteDatabase = db.getDB();
+        SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement("SELECT SUM(value) FROM outgoing");
 
         long sum = 0;
 
